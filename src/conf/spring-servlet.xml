@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	   http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- resources exclusions from servlet mapping -->
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/img/**" location="/img/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/website/**" location="/website/" />
+
+
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!-- <bean id="freemarkerConfig" class="com.tk.cms.core.shiro.ShiroTagFreeMarkerConfigurer"> -->
+		<property name="templateLoaderPath" value="/WEB-INF/ftl/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="output_encoding">UTF-8</prop>
+				<prop key="number_format">#</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="freemarkerResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="1" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="cache" value="yes" />
+		<property name="requestContextAttribute" value="rc"></property>
+	</bean>
+
+	<!-- config the default handler, for example, the welcome page in the welcome file list -->
+	<mvc:default-servlet-handler />
+
+	<!-- 扫描注解配置的包 -->
+	<context:component-scan base-package="com.tk.video.web" />
+
+
+</beans>
